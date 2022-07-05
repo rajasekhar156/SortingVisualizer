@@ -15,7 +15,7 @@ import {
 const PRI_COL = "#7cdaff";
 const SEC_COL = "#2dc100";
 const TRI_COL = "#fa1e1e";
-const QUA_COL = 'green';
+const QUA_COL = "green";
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -36,39 +36,34 @@ class SortingVisualizer extends React.Component {
 
   resetArray() {
     const array = [];
-    for (let i = 0; i < 75; ++i) {
-      array.push(randomIntFromInterval(10, 550));
+    for (let i = 0; i < 40; ++i) {
+      array.push(randomIntFromInterval(10, 200));
     }
     this.setState({ array });
   }
 
   mergeSort() {
-      var temp = this.state.array;
-      var animations = mergesort(temp,0,temp.length-1);
-      this.mergesortutil(animations,0);
+    var temp = this.state.array;
+    var animations = mergesort(temp, 0, temp.length - 1);
+    this.mergesortutil(animations, 0);
   }
 
-  bubbleSort() {
-      var temp = this.state.array;
-      var animations = bubblesort(temp);
-      this.bubblesortutil(animations,0);
-  }
-  
-  mergesortutil = (animations,len) => {
-      setTimeout(()=>{
-        const arraybars = document.getElementsByClassName('array-bar');
-        var [a,b,c] = animations[len];
-        if(a===0){
-          setTimeout(()=>{
-            for(let i=b;i<=c;i++){
-            arraybars[i].style.backgroundColor = SEC_COL;
-            setTimeout(()=>{
-              for(let i=b;i<=c;i++){
-              arraybars[i].style.backgroundColor = PRI_COL;
-              }},0);
-            }},0);
-        }
-        else if(a===1){
+  mergesortutil = (animations, len) => {
+    setTimeout(() => {
+      const array = this.state.array;
+      const arraybars = document.getElementsByClassName("array-bar");
+      var [a, b, c] = animations[len];
+      for (let i = 0; i <= array.length - 1; i++) {
+        arraybars[i].style.backgroundColor = SEC_COL;
+      }
+      if (a === 0) {
+        setTimeout(() => {
+          for (let i = b; i <= c; i++) {
+            arraybars[i].style.backgroundColor = PRI_COL;
+          }
+        }, 600);
+      }
+      /*else if(a===1){
           arraybars[b].style.backgroundColor = QUA_COL;
         }
         else if(a===2){
@@ -86,45 +81,49 @@ class SortingVisualizer extends React.Component {
             }
             console.log(c);
           },0);
-        }
-        if(len<animations.length-1){
-          this.mergesortutil(animations,len+1);
-        }
-      },0);
-    }
+        }*/
+      if (len < animations.length - 1) {
+        this.mergesortutil(animations, len + 1);
+      }
+    }, 1000);
+  };
 
-  bubblesortutil(len, animations, prelen) {
-    setTimeout(()=>{
-        const arraybars = document.getElementsByClassName('array-bar');
-        const [a,b,c,d,e] = animations[len];
-        if(c===0){
-          arraybars[a].style.backgroundColor = SEC_COL;
-          arraybars[b].style.backgroundColor = SEC_COL;
-        }
-        else if(c===1){
-          arraybars[a].style.backgroundColor = TRI_COL;
-          arraybars[b].style.backgroundColor = TRI_COL;
-          arraybars[a].style.height = `${d}px`;
-          arraybars[b].style.height = `${e}px`;
-        }
-        else if(c===2){
-          arraybars[a].style.backgroundColor = PRI_COL;
-          arraybars[b].style.backgroundColor = PRI_COL;
-        }
-        if(len<animations.length-1){
-          this.bubblesortutil(animations,len+1);
-        }
-      },0);
+  bubbleSort() {
+    var temp = this.state.array;
+    var animations = bubblesort(temp);
+    this.bubblesortutil(animations, 0);
+  }
+
+  bubblesortutil(animations, len) {
+    setTimeout(() => {
+      const arraybars = document.getElementsByClassName("array-bar");
+      const [a, b, c, d, e] = animations[len];
+      if (c === 0) {
+        arraybars[a].style.backgroundColor = SEC_COL;
+        arraybars[b].style.backgroundColor = SEC_COL;
+      } else if (c === 1) {
+        arraybars[a].style.backgroundColor = TRI_COL;
+        arraybars[b].style.backgroundColor = TRI_COL;
+        arraybars[a].style.height = `${d}px`;
+        arraybars[b].style.height = `${e}px`;
+      } else if (c === 2) {
+        arraybars[a].style.backgroundColor = PRI_COL;
+        arraybars[b].style.backgroundColor = PRI_COL;
+      }
+      if (len < animations.length - 1) {
+        this.bubblesortutil(animations, len + 1);
+      }
+    }, 0);
   }
 
   insertionSort() {
     const temp = this.state.array;
     const animations = insertionsort(temp).reverse();
     const length = animations.length - 1;
-    this.insertionsortutil(length, animations, length);
+    this.insertionsortutil(animations, length);
   }
 
-  insertionsortutil(length, animations, prelen) {
+  insertionsortutil(animations, length) {
     setTimeout(() => {
       const arraybars = document.getElementsByClassName("array-bar");
       const [a, b, c, d, e] = animations[length];
@@ -143,10 +142,10 @@ class SortingVisualizer extends React.Component {
         bar1_style.backgroundColor = PRI_COL;
         bar2_style.backgroundColor = PRI_COL;
       }
-      
+
       length -= 1;
       if (length >= 0) {
-        this.insertionsortutil(length, animations, prelen);
+        this.insertionsortutil(animations, length);
       }
     }, 0);
   }
@@ -160,28 +159,16 @@ class SortingVisualizer extends React.Component {
           <StyledToolbar>
             <Typography variant="h6">Sorting Visualizer</Typography>
             <Stack direction="row" spacing={2}>
-              <Button
-                onClick={() => this.resetArray()}
-                variant="contained"
-              >
+              <Button onClick={() => this.resetArray()} variant="contained">
                 ResetArray
               </Button>
-              <Button
-                onClick={() => this.mergeSort()}
-                variant="contained"
-              >
+              <Button onClick={() => this.mergeSort()} variant="contained">
                 MergeSort
               </Button>
-              <Button
-                onClick={() => this.bubbleSort()}
-                variant='contained'
-              >
+              <Button onClick={() => this.bubbleSort()} variant="contained">
                 BubbleSort
               </Button>
-              <Button
-                onClick={() => this.insertionSort()}
-                variant="contained"
-              >
+              <Button onClick={() => this.insertionSort()} variant="contained">
                 InsertionSort
               </Button>
             </Stack>
