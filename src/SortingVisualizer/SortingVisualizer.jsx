@@ -1,6 +1,6 @@
 import React from "react";
 import "./SortingVisualizer.css";
-//import mergesort from "../SortingAlgorithms/mergesort";
+import mergesort from "../SortingAlgorithms/mergesort";
 import bubblesort from "../SortingAlgorithms/bubblesort";
 import {
   AppBar,
@@ -14,6 +14,7 @@ import {
 const PRI_COL = "#7cdaff";
 const SEC_COL = "#2dc100";
 const TRI_COL = "#fa1e1e";
+const QUA_COL = 'green';
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -40,14 +41,57 @@ class SortingVisualizer extends React.Component {
     this.setState({ array });
   }
 
-  mergesort() {}
+  mergeSort() {
+      var temp = this.state.array;
+      var animations = mergesort(temp,0,temp.length-1);
+      this.mergesortutil(animations,0);
+  }
 
-  bubblesort() {
+  bubbleSort() {
     const temp = this.state.array;
     const animations = bubblesort(temp).reverse();
     const length = animations.length - 1;
     this.bubblesortutil(length, animations, length);
   }
+  
+  mergesortutil = (animations,len) => {
+      setTimeout(()=>{
+        const arraybars = document.getElementsByClassName('array-bar');
+        var [a,b,c] = animations[len];
+        if(a===0){
+          setTimeout(()=>{
+            for(let i=b;i<=c;i++){
+            arraybars[i].style.backgroundColor = SEC_COL;
+            setTimeout(()=>{
+              for(let i=b;i<=c;i++){
+              arraybars[i].style.backgroundColor = PRI_COL;
+              }},0);
+            }},0);
+        }
+        else if(a===1){
+          arraybars[b].style.backgroundColor = QUA_COL;
+        }
+        else if(a===2){
+          arraybars[b].style.backgroundColor = QUA_COL;
+          arraybars[c].style.backgroundColor = QUA_COL;
+        }
+        else{
+          setTimeout(()=>{
+            let legt = c.length;
+            arraybars[b].style.backgroundColor = SEC_COL;
+            arraybars[b+legt-1].style.backgroundColor = SEC_COL;
+            arraybars[b].style.height = c[legt-1];
+            for(let i=legt-2;i>=(b);i--){
+              arraybars[i+1].style.height = c[i];
+            }
+            console.log(c);
+          },0);
+        }
+        if(len<animations.length-1){
+          this.mergesortutil(animations,len+1);
+        }
+      },0);
+    }
 
   bubblesortutil(length, animations, prelen) {
     setTimeout(() => {
@@ -78,9 +122,7 @@ class SortingVisualizer extends React.Component {
     }, 100);
   }
 
-  insertionsort() {}
-
-  selectionsort() {}
+  insertionSort() {}
 
   render() {
     const array = this.state.array;
@@ -98,19 +140,19 @@ class SortingVisualizer extends React.Component {
                 ResetArray
               </Button>
               <Button
-                onClick={() => this.mergesort()}
+                onClick={() => this.mergeSort()}
                 variant="contained"
               >
                 MergeSort
               </Button>
               <Button
-                onClick={() => this.bubblesort()}
+                onClick={() => this.bubbleSort()}
                 variant='contained'
               >
                 BubbleSort
               </Button>
               <Button
-                onClick={() => this.insertionsort()}
+                onClick={() => this.insertionSort()}
                 variant="contained"
               >
                 InsertionSort
