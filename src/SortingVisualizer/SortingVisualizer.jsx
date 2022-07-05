@@ -116,7 +116,39 @@ class SortingVisualizer extends React.Component {
       },0);
   }
 
-  insertionSort() {}
+  insertionSort() {
+    const temp = this.state.array;
+    const animations = insertionsort(temp).reverse();
+    const length = animations.length - 1;
+    this.insertionsortutil(length, animations, length);
+  }
+
+  insertionsortutil(length, animations, prelen) {
+    setTimeout(() => {
+      const arraybars = document.getElementsByClassName("array-bar");
+      const [a, b, c, d, e] = animations[length];
+      const bar1_style = arraybars[a].style;
+      const bar2_style = arraybars[b].style;
+
+      if (c === -1) {
+        bar1_style.backgroundColor = SEC_COL;
+        bar2_style.backgroundColor = SEC_COL;
+      } else if (c === a) {
+        bar1_style.backgroundColor = TRI_COL;
+        bar2_style.backgroundColor = TRI_COL;
+        bar1_style.height = `${d}px`;
+        bar2_style.height = `${e}px`;
+      } else if (c === -2) {
+        bar1_style.backgroundColor = PRI_COL;
+        bar2_style.backgroundColor = PRI_COL;
+      }
+      
+      length -= 1;
+      if (length >= 0) {
+        this.insertionsortutil(length, animations, prelen);
+      }
+    }, 0);
+  }
 
   render() {
     const array = this.state.array;
