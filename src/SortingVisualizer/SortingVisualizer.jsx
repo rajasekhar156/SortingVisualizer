@@ -2,6 +2,7 @@ import React from "react";
 import "./SortingVisualizer.css";
 import mergesort from "../SortingAlgorithms/mergesort";
 import bubblesort from "../SortingAlgorithms/bubblesort";
+import insertionsort from "../SortingAlgorithms/insertionsort";
 import {
   AppBar,
   Button,
@@ -92,7 +93,7 @@ class SortingVisualizer extends React.Component {
       },0);
     }
 
-  bubblesortutil(length, animations, prelen) {
+  bubblesortutil(len, animations, prelen) {
     setTimeout(()=>{
         const arraybars = document.getElementsByClassName('array-bar');
         const [a,b,c,d,e] = animations[len];
