@@ -48,10 +48,9 @@ class SortingVisualizer extends React.Component {
   }
 
   bubbleSort() {
-    const temp = this.state.array;
-    const animations = bubblesort(temp).reverse();
-    const length = animations.length - 1;
-    this.bubblesortutil(length, animations, length);
+      var temp = this.state.array;
+      var animations = bubblesort(temp);
+      this.bubblesortutil(animations,0);
   }
   
   mergesortutil = (animations,len) => {
@@ -94,32 +93,27 @@ class SortingVisualizer extends React.Component {
     }
 
   bubblesortutil(length, animations, prelen) {
-    setTimeout(() => {
-      const arraybars = document.getElementsByClassName("array-bar");
-      const [a, b, c, d, e] = animations[length];
-      const bar1_style = arraybars[a].style;
-      const bar2_style = arraybars[b].style;
-
-      if ((prelen - length) % 3 === 0) {
-        bar1_style.backgroundColor = SEC_COL;
-        bar2_style.backgroundColor = SEC_COL;
-      } else if ((prelen - length) % 3 === 1) {
-        if (c === a) {
-          bar1_style.backgroundColor = TRI_COL;
-          bar2_style.backgroundColor = TRI_COL;
-          bar1_style.height = `${d}px`;
-          bar2_style.height = `${e}px`;
+    setTimeout(()=>{
+        const arraybars = document.getElementsByClassName('array-bar');
+        const [a,b,c,d,e] = animations[len];
+        if(c===0){
+          arraybars[a].style.backgroundColor = SEC_COL;
+          arraybars[b].style.backgroundColor = SEC_COL;
         }
-      } else if ((prelen - length) % 3 === 2) {
-        bar1_style.backgroundColor = PRI_COL;
-        bar2_style.backgroundColor = PRI_COL;
-      }
-
-      length -= 1;
-      if (length >= 0) {
-        this.bubblesortutil(length, animations, prelen);
-      }
-    }, 100);
+        else if(c===1){
+          arraybars[a].style.backgroundColor = TRI_COL;
+          arraybars[b].style.backgroundColor = TRI_COL;
+          arraybars[a].style.height = `${d}px`;
+          arraybars[b].style.height = `${e}px`;
+        }
+        else if(c===2){
+          arraybars[a].style.backgroundColor = PRI_COL;
+          arraybars[b].style.backgroundColor = PRI_COL;
+        }
+        if(len<animations.length-1){
+          this.bubblesortutil(animations,len+1);
+        }
+      },0);
   }
 
   insertionSort() {}
