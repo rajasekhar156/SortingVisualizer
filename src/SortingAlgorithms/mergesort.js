@@ -1,36 +1,26 @@
-const mergefunc = (array, l1, m, l2) => {
-    let p = l1,
-        q = m + 1,
-        r = 0,
-        sum = 0;
-    const temparr = [];
-    const animate = [];
+const mergefunc = (array, left, mid, right) => {
+    let i = left,
+        j = mid + 1,
+        k = 0;
     let index = 0;
-    while (r < (l2 - l1 + 1)) {
-        if (p > m) {
-            animate[index++] = [1, q, array[q]];
-            temparr[r++] = array[q++];
-        } else if (q > l2) {
-            animate[index++] = [1, p, array[p]];
-            temparr[r++] = array[p++];
-        } else if (array[p] > array[q]) {
-            var test = [];
-            for (let i = p; i <= m; i++) {
-                test[i - p] = array[i];
-            }
-            test.push(array[q]);
-            animate[index++] = [3, p + sum, test];
-            temparr[r++] = array[q++];
-            sum++;
+    const animations = [];
+    animations[index++] = [1, left, right];
+    const temp = [];
+    while (i <= mid || j <= right) {
+        if (j === right + 1 || (i <= mid && array[i] < array[j])) {
+            animations[index++] = [2, i, array[i]];
+            temp[k++] = array[i++];
         } else {
-            animate[index++] = [2, p, q];
-            temparr[r++] = array[p++];
+            animations[index++] = [2, j, array[j]];
+            temp[k++] = array[j++];
         }
     }
-    for (let i = 0; i < r; i++) {
-        array[i + l1] = temparr[i];
+    index = 0;
+    for (let i = left; i <= right; ++i) {
+        array[i] = temp[index++];
     }
-    return animate;
+    animations.push([3, left, right]);
+    return animations;
 }
 
 const mergesort = (array, len1, len2) => {
