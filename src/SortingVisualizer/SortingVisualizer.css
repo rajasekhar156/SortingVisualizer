@@ -1,12 +1,25 @@
 .array-container {
     position: absolute;
-    left: 80px;
-    top: 90px;
+    bottom: 500px;
+    left: 150px;
 }
 
 .array-bar {
-    width: 10px;
+    width: 15px;
     background-color: blue;
     display: inline-block;
-    margin: 0 3px;
+    margin: 0 8px;
+}
+
+.array-bottom-container {
+    left: 150px;
+    position: absolute;
+    bottom: 100px;
+}
+
+.bottom-array-bar {
+    width: 15px;
+    background-color: blue;
+    display: inline-block;
+    margin: 0 8px;
 }
