@@ -5,6 +5,8 @@ import insertionsort from '../SortingAlgorithms/insertionsort';
 import mergesort from '../SortingAlgorithms/mergesort';
 import { AppBar,Button,styled,Toolbar,Typography,Stack,Box,Slider } from '@mui/material';
 
+
+
 const PRI_COL = "blue";
 const SEC_COL = "#2dc100";
 const TRI_COL = "#fa1e1e";
